@@ -29,11 +29,16 @@ SHEET_URL = "".join(
     ]
 )
 
-# Lindy Favorites
-# PLAYLIST_URI = "spotify:playlist:637KMeDDmU7MWmCjS567zW"
 
-# All Lindy
-PLAYLIST_URI = "spotify:playlist:4hgB4Tk5x5ll6YCy5s1SHR"
+PLAYLIST_URIS = [
+    # Lindy Favorites
+    "spotify:playlist:637KMeDDmU7MWmCjS567zW",
+    # All Lindy
+    "spotify:playlist:08GGhRczmPNZ8nlTUdevNY",
+    # Lindy Pop
+    "spotify:playlist:4hgB4Tk5x5ll6YCy5s1SHR",
+]
+
 USERNAME = "thaunatos"
 
 
@@ -130,10 +135,14 @@ def sync_sheet_playlist_data():
 
 
 def main():
-    tracks = parse_sheet(download_sheet())
-    downloadable_tracks = [track for track in tracks if track.youtube_link]
-    download_tracks(downloadable_tracks)
-    # sync_sheet_playlist_data()
+    import sys
+
+    if "sync" in sys.argv:
+        sync_sheet_playlist_data()
+    elif "download" in sys.argv:
+        tracks = parse_sheet(download_sheet())
+        downloadable_tracks = [track for track in tracks if track.youtube_link]
+        download_tracks(downloadable_tracks)
 
 
 if __name__ == "__main__":
